@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.ckl.depencyinjectionsampleapp.R;
-import io.ckl.depencyinjectionsampleapp.base.BaseActivity;
+import io.ckl.depencyinjectionsampleapp.presentation.base.BaseActivity;
 
 public class UsersListActivity extends BaseActivity {
 

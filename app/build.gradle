@@ -10,6 +10,10 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "GITHUB_TOKEN", myGitHubToken
+        buildConfigField "String", "API_URL", appUrl
+
     }
     buildTypes {
         release {
@@ -25,4 +29,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+    compile("com.squareup.okhttp3:okhttp:3.1.2") {
+        // exclude Retrofit’s OkHttp peer-dependency module and define your own module import
+        exclude module: 'okhttp'
+    }
+
 }

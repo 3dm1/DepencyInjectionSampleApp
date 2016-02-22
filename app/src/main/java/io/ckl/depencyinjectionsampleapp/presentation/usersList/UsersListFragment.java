@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import io.ckl.depencyinjectionsampleapp.R;
-import io.ckl.depencyinjectionsampleapp.base.BaseFragment;
+import io.ckl.depencyinjectionsampleapp.presentation.base.BaseFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -20,7 +20,7 @@ public class UsersListFragment extends BaseFragment {
 		fragment.setArguments(args);
 		return fragment;
 	}
-	
+
 	@Override
 	protected int getFragmentLayoutResource() {
 		return R.layout.fragment_users_list;

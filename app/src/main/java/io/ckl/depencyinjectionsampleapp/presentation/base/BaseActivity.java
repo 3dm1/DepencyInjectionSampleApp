@@ -1,4 +1,4 @@
-package io.ckl.depencyinjectionsampleapp.base;
+package io.ckl.depencyinjectionsampleapp.presentation.base;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
