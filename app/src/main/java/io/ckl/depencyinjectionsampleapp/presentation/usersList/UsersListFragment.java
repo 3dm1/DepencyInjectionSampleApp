@@ -68,7 +68,7 @@ public class UsersListFragment extends BaseFragment
 
 	@Override
 	protected void prepareData() {
-		mUserModel = new GitHubUserModel();
+		mUserModel = new GitHubUserModel(getActivity());
 		mUsersListPresenter = new UsersListPresenter(this, mUserModel);
 		mUsersListPresenter.loadUsersList();
 

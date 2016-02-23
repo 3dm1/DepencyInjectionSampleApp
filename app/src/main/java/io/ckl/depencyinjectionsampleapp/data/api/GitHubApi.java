@@ -4,6 +4,8 @@ package io.ckl.depencyinjectionsampleapp.data.api;
  * Created by edsonmenegatti on 2/22/16.
  */
 
+import android.content.Context;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
 
 import io.ckl.depencyinjectionsampleapp.BuildConfig;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -21,8 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class GitHubApi {
 	private static final String TAG = "GitHubApi";
+	public static final int CACHE_SIZE = 5 * 1024 * 1024;
 
-	public static <S> S createService(Class<S> serviceClass) {
+	public static <S> S createService(Class<S> serviceClass, Context context) {
 
 		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -33,6 +37,7 @@ public class GitHubApi {
 
 		OkHttpClient client = new OkHttpClient.Builder()
 				.addInterceptor(interceptor)
+				.cache(new Cache(context.getCacheDir(), CACHE_SIZE))
 				.readTimeout(30, TimeUnit.SECONDS)
 				.connectTimeout(30, TimeUnit.SECONDS)
 				.build();
