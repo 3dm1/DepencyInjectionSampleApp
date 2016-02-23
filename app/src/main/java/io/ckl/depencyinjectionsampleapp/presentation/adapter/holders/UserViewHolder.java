@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.ckl.depencyinjectionsampleapp.R;
@@ -28,5 +30,8 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
 		mGitHubUser = gitHubUser;
 
 		mUserName.setText(gitHubUser.getDescription());
+		Picasso.with(mUserAvatar.getContext())
+				.load(mGitHubUser.avatarUrl)
+				.into(mUserAvatar);
 	}
 }
