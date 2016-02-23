@@ -4,14 +4,31 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import io.ckl.depencyinjectionsampleapp.data.storage.DepencyInjectionDatabase;
+import io.ckl.depencyinjectionsampleapp.helpers.Validation;
+import io.ckl.depencyinjectionsampleapp.helpers.ValidationFailedException;
+
 /**
  * Created by edsonmenegatti on 2/22/16.
  */
-public class GitHubUser implements Parcelable {
+@Table(database = DepencyInjectionDatabase.class)
+public class GitHubUser extends BaseModel implements Parcelable, Validation {
 
-	public String login;
+	@PrimaryKey
 	public int id;
+
+	@Column
+	public String login;
+
+	@Column
 	public String avatarUrl;
+
+	@Column
 	public String name;
 
 	public String getDescription() {
@@ -45,4 +62,13 @@ public class GitHubUser implements Parcelable {
 
 		public GitHubUser[] newArray(int size) {return new GitHubUser[size];}
 	};
+
+	@Override
+	public void validate() {
+		if (id < 0) {
+			throw new ValidationFailedException("Invalid id");
+		} else if (TextUtils.isEmpty(login)) {
+			throw new ValidationFailedException("Invalid login");
+		}
+	}
 }

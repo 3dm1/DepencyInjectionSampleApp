@@ -33,7 +33,8 @@ public class UsersListPresenter implements UsersListContract.ActionInteractor {
 			public void onResponse(Call<List<GitHubUser>> call, Response<List<GitHubUser>> response) {
 				mView.hideProgress();
 				if (response.isSuccess()) {
-					mView.showUsers(response.body());
+					mUserModel.saveAll(response.body());
+					mView.showUsers(mUserModel.loadAll());
 				} else {
 					mView.showRetry();
 				}
