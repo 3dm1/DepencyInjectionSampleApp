@@ -23,7 +23,8 @@
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/user_list_recycler"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"/>
+				android:layout_height="match_parent"
+				tools:listitem="@layout/user_view_holder"/>
 
 			<TextView
 				android:id="@+id/user_list_empty_view"
@@ -31,9 +32,9 @@
 				android:layout_height="match_parent"
 				android:layout_centerInParent="true"
 				android:gravity="center"
-				android:text="Couldn't find any user"
+				android:text="@string/empty_user_list_label"
 				android:textSize="20sp"
-				android:visibility="visible"/>
+				android:visibility="invisible"/>
 
 		</RelativeLayout>
 

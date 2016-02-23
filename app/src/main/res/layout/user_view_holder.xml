@@ -3,23 +3,27 @@
 				xmlns:tools="http://schemas.android.com/tools"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="5dp">
+				android:layout_margin="@dimen/small_padding">
 
 	<ImageView
 		android:id="@+id/user_avatar"
 		android:layout_width="48dp"
 		android:layout_height="48dp"
 		android:layout_centerVertical="true"
+		android:scaleType="centerCrop"
 		tools:src="@drawable/ic_person_black_36dp"/>
 
-	<TextView
+	<android.support.v7.widget.AppCompatTextView
 		android:id="@+id/user_name"
 		android:layout_width="wrap_content"
 		android:layout_height="match_parent"
+		android:layout_centerVertical="true"
 		android:layout_gravity="start|center_vertical"
 		android:layout_toEndOf="@id/user_avatar"
 		android:layout_toRightOf="@id/user_avatar"
 		android:gravity="center_vertical"
+		android:padding="@dimen/small_padding"
+		android:textSize="20sp"
 		tools:text="Username"/>
 
 </RelativeLayout>

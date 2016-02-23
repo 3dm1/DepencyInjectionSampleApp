@@ -1,9 +1,9 @@
 package io.ckl.depencyinjectionsampleapp.presentation.adapter.holders;
 
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,7 +18,7 @@ import io.ckl.depencyinjectionsampleapp.data.entities.GitHubUser;
 public class UserViewHolder extends RecyclerView.ViewHolder {
 
 	@Bind(R.id.user_avatar) ImageView mUserAvatar;
-	@Bind(R.id.user_name) TextView mUserName;
+	@Bind(R.id.user_name) AppCompatTextView mUserName;
 	private GitHubUser mGitHubUser;
 
 	public UserViewHolder(View itemView) {
