@@ -2,6 +2,7 @@ package io.ckl.depencyinjectionsampleapp.data.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
  * Created by edsonmenegatti on 2/22/16.
@@ -12,6 +13,12 @@ public class GitHubUser implements Parcelable {
 	public int id;
 	public String avatarUrl;
 	public String name;
+
+	public String getDescription() {
+		final StringBuilder stringBuilder = new StringBuilder(login);
+		if (!TextUtils.isEmpty(name)) stringBuilder.append(" / ").append(name);
+		return stringBuilder.toString();
+	}
 
 	@Override
 	public int describeContents() { return 0; }

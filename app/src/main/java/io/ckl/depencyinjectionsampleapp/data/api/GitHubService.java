@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.ckl.depencyinjectionsampleapp.BuildConfig;
 import io.ckl.depencyinjectionsampleapp.data.entities.GitHubUser;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
@@ -15,12 +16,13 @@ public interface GitHubService {
 
 	@GET("/users")
 	@Headers("Authorization: token " + BuildConfig.GITHUB_TOKEN)
-	List<GitHubUser> getUsers();
+	Call<List<GitHubUser>> getUsers();
 
 	@GET("/users/{login}")
 	@Headers("Authorization: token " + BuildConfig.GITHUB_TOKEN)
-	GitHubUser getUser(@Path("login") String login);
+	Call<GitHubUser> getUser(@Path("login") String login);
 
-	@GET("/users?since={page}")
-	GitHubUser getUsers(@Path("page") int page);
+//	@GET("/users?since={page}")
+//	@Headers("Authorization: token " + BuildConfig.GITHUB_TOKEN)
+//	Call<GitHubUser> getUsers(@Path("page") int page);
 }

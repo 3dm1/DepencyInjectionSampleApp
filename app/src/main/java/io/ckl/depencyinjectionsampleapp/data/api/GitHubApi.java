@@ -36,13 +36,13 @@ public class GitHubApi {
 				.readTimeout(30, TimeUnit.SECONDS)
 				.connectTimeout(30, TimeUnit.SECONDS)
 				.build();
-		​
+
 		Retrofit retrofit = new Retrofit.Builder()
 				.addConverterFactory(GsonConverterFactory.create(gson))
 				.baseUrl(BuildConfig.API_URL)
 				.client(client)
 				.build();
-		​
+
 		return retrofit.create(serviceClass);
 	}
 }

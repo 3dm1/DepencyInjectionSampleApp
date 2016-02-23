@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:tools="http://schemas.android.com/tools"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:paddingBottom="@dimen/activity_vertical_margin"
+				android:paddingLeft="@dimen/activity_horizontal_margin"
+				android:paddingRight="@dimen/activity_horizontal_margin"
+				android:paddingTop="@dimen/activity_vertical_margin"
+				tools:context=".presentation.usersList.UsersListFragment"
+				tools:showIn="@layout/users_list_activity">
+
+
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/user_list_refresh_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/user_list_recycler"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
+
+			<TextView
+				android:id="@+id/user_list_empty_view"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_centerInParent="true"
+				android:gravity="center"
+				android:text="Couldn't find any user"
+				android:textSize="20sp"
+				android:visibility="visible"/>
+
+		</RelativeLayout>
+
+	</android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>
