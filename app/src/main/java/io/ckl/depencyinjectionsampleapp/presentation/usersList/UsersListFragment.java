@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import io.ckl.depencyinjectionsampleapp.R;
+import io.ckl.depencyinjectionsampleapp.app.DepencyInjectionApplication;
 import io.ckl.depencyinjectionsampleapp.data.entities.GitHubUser;
 import io.ckl.depencyinjectionsampleapp.data.model.GitHubUserModel;
 import io.ckl.depencyinjectionsampleapp.presentation.adapter.GitHubUserAdapter;
@@ -32,6 +35,8 @@ public class UsersListFragment extends BaseFragment
 	private GitHubUserAdapter mUserAdapter;
 	private LinearLayoutManager mLayoutManager;
 	private boolean isLoading;
+
+	@Inject public GitHubUserModel mUserModel;
 
 	public static UsersListFragment newInstance() {
 
@@ -96,10 +101,10 @@ public class UsersListFragment extends BaseFragment
 
 	@Override
 	protected void prepareData() {
-		GitHubUserModel userModel = new GitHubUserModel(getActivity().getApplicationContext());
-		mActionInteractor = new UsersListPresenter(this, userModel);
-		mActionInteractor.loadUsersList(false);
+		DepencyInjectionApplication.getAppComponent(getActivity()).inject(this);
 
+		mActionInteractor = new UsersListPresenter(this, mUserModel);
+		mActionInteractor.loadUsersList(false);
 	}
 
 	private void prepareRecyclerViewForData() {
