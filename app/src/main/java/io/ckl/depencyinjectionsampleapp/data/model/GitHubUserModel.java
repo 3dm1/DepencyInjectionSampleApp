@@ -1,7 +1,5 @@
 package io.ckl.depencyinjectionsampleapp.data.model;
 
-import android.content.Context;
-
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
 import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
@@ -9,7 +7,8 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
-import io.ckl.depencyinjectionsampleapp.data.api.GitHubApi;
+import javax.inject.Inject;
+
 import io.ckl.depencyinjectionsampleapp.data.api.GitHubService;
 import io.ckl.depencyinjectionsampleapp.data.entities.GitHubUser;
 import io.ckl.depencyinjectionsampleapp.helpers.ValidationHelper;
@@ -22,8 +21,9 @@ public class GitHubUserModel {
 
 	private final GitHubService mService;
 
-	public GitHubUserModel(Context context) {
-		mService = GitHubApi.createService(GitHubService.class, context);
+	@Inject
+	public GitHubUserModel(GitHubService service) {
+		mService = service;
 	}
 
 	public Call<List<GitHubUser>> fetchUsers(int page) {
