@@ -41,4 +41,8 @@ public class GitHubUserAdapter extends RecyclerView.Adapter {
 		mUsers = users;
 		notifyDataSetChanged();
 	}
+
+	public GitHubUser getUser(int position) {
+		return mUsers.get(position);
+	}
 }

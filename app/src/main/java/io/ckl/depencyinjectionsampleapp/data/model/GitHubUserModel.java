@@ -26,6 +26,10 @@ public class GitHubUserModel {
 		mService = GitHubApi.createService(GitHubService.class, context);
 	}
 
+	public Call<List<GitHubUser>> fetchUsers(int page) {
+		return mService.getUsers(page);
+	}
+
 	public Call<List<GitHubUser>> fetchUsers() {
 		return mService.getUsers();
 	}
@@ -41,6 +45,7 @@ public class GitHubUserModel {
 		if (users.isEmpty()) {
 			return;
 		}
+
 		ProcessModelInfo<GitHubUser> itemProcessModelInfo = ProcessModelInfo.withModels(users);
 		TransactionManager.getInstance().addTransaction(new SaveModelTransaction<>(itemProcessModelInfo));
 	}

@@ -13,6 +13,8 @@ import retrofit2.Response;
  */
 public class UsersListPresenter implements UsersListContract.ActionInteractor {
 
+	private static final String TAG = "UsersListPresenter";
+
 	private final UsersListContract.View mView;
 	private final GitHubUserModel mUserModel;
 
@@ -22,13 +24,43 @@ public class UsersListPresenter implements UsersListContract.ActionInteractor {
 	}
 
 	@Override
-	public void refreshData() {
-		loadUsersList();
+	public void loadUsersList(boolean forceFetch) {
+
+		final Call<List<GitHubUser>> usersCall = mUserModel.fetchUsers();
+		if (forceFetch) {
+			executeUsersRequest(usersCall);
+		} else {
+			final List<GitHubUser> gitHubUsers = mUserModel.loadAll();
+			if (gitHubUsers.isEmpty()) {
+				executeUsersRequest(usersCall);
+			} else {
+				mView.showUsers(mUserModel.loadAll());
+			}
+		}
 	}
 
 	@Override
-	public void loadUsersList() {
-		mUserModel.fetchUsers().enqueue(new Callback<List<GitHubUser>>() {
+	public void loadUsers(int page) {
+		mUserModel.fetchUsers(page).enqueue(new Callback<List<GitHubUser>>() {
+			@Override
+			public void onResponse(Call<List<GitHubUser>> call, Response<List<GitHubUser>> response) {
+				if (response.isSuccess()) {
+					mUserModel.saveAll(response.body());
+					mView.showUsers(mUserModel.loadAll());
+				} else {
+					mView.showRetry();
+				}
+			}
+
+			@Override
+			public void onFailure(Call<List<GitHubUser>> call, Throwable t) {
+				mView.showRetry();
+			}
+		});
+	}
+
+	private void executeUsersRequest(Call<List<GitHubUser>> usersCall) {
+		usersCall.enqueue(new Callback<List<GitHubUser>>() {
 			@Override
 			public void onResponse(Call<List<GitHubUser>> call, Response<List<GitHubUser>> response) {
 				mView.hideProgress();
@@ -43,7 +75,6 @@ public class UsersListPresenter implements UsersListContract.ActionInteractor {
 			@Override
 			public void onFailure(Call<List<GitHubUser>> call, Throwable t) {
 				mView.hideProgress();
-
 			}
 		});
 	}

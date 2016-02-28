@@ -23,13 +23,15 @@ import io.ckl.depencyinjectionsampleapp.presentation.base.BaseFragment;
 public class UsersListFragment extends BaseFragment
 		implements UsersListContract.View {
 
+	public static final int INFINITE_SCROLL_THRESHOLD = 10;
 	@Bind(R.id.user_list_recycler) RecyclerView mUsersRecycler;
 	@Bind(R.id.user_list_refresh_layout) SwipeRefreshLayout mRefreshLayout;
 	@Bind(R.id.user_list_empty_view) TextView mEmptyView;
 
-	private UsersListPresenter mUsersListPresenter;
-	private GitHubUserAdapter mGuestAdapter;
-	private GitHubUserModel mUserModel;
+	private UsersListPresenter mActionInteractor;
+	private GitHubUserAdapter mUserAdapter;
+	private LinearLayoutManager mLayoutManager;
+	private boolean isLoading;
 
 	public static UsersListFragment newInstance() {
 
@@ -53,7 +55,33 @@ public class UsersListFragment extends BaseFragment
 	}
 
 	private void setupRecyclerView() {
-		mUsersRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+		mLayoutManager = new LinearLayoutManager(getActivity());
+		mUsersRecycler.setLayoutManager(mLayoutManager);
+		mUsersRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+				super.onScrolled(recyclerView, dx, dy);
+
+				final boolean isScrollDown = dy > 0;
+				if (isScrollDown) {
+					final int visibleItemCount = mLayoutManager.getChildCount();
+					final int totalItemCount = mLayoutManager.getItemCount();
+					final int lastVisibleItem = visibleItemCount +
+							mLayoutManager.findFirstVisibleItemPosition();
+
+					final boolean triggerRequest =
+							totalItemCount - lastVisibleItem > INFINITE_SCROLL_THRESHOLD;
+
+					if (!isLoading && triggerRequest) {
+						isLoading = true;
+						mActionInteractor.loadUsers(
+								mUserAdapter.getUser(totalItemCount - 1).id
+						);
+					}
+
+				}
+			}
+		});
 
 	}
 
@@ -61,24 +89,24 @@ public class UsersListFragment extends BaseFragment
 		mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				mUsersListPresenter.refreshData();
+				mActionInteractor.loadUsersList(true);
 			}
 		});
 	}
 
 	@Override
 	protected void prepareData() {
-		mUserModel = new GitHubUserModel(getActivity());
-		mUsersListPresenter = new UsersListPresenter(this, mUserModel);
-		mUsersListPresenter.loadUsersList();
+		GitHubUserModel userModel = new GitHubUserModel(getActivity());
+		mActionInteractor = new UsersListPresenter(this, userModel);
+		mActionInteractor.loadUsersList(false);
 
 	}
 
 	private void prepareRecyclerViewForData() {
-		mGuestAdapter = new GitHubUserAdapter();
+		mUserAdapter = new GitHubUserAdapter();
 
 		showEmptyView();
-		mUsersRecycler.setAdapter(mGuestAdapter);
+		mUsersRecycler.setAdapter(mUserAdapter);
 	}
 
 	private void showEmptyView() {
@@ -94,12 +122,13 @@ public class UsersListFragment extends BaseFragment
 	@Override
 	public void showUsers(List<GitHubUser> users) {
 		if (users.size() > 0) {
+			isLoading = false;
 			hideEmptyView();
 		} else {
 			showEmptyView();
 		}
 
-		mGuestAdapter.setData(users);
+		mUserAdapter.setData(users);
 	}
 
 	@Override

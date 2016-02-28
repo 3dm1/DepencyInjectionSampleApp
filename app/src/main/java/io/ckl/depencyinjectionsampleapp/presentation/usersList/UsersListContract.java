@@ -19,8 +19,8 @@ public class UsersListContract {
 
 	public interface ActionInteractor {
 
-		void refreshData();
+		void loadUsersList(boolean forceFetch);
 
-		void loadUsersList();
+		void loadUsers(int page);
 	}
 }

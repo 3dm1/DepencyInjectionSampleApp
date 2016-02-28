@@ -8,7 +8,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
  */
 @Database(name = DepencyInjectionDatabase.NAME, version = DepencyInjectionDatabase.VERSION)
 public class DepencyInjectionDatabase extends BaseModel {
-	public static final String NAME = "Colonies";
+	public static final String NAME = "DepencyInjection";
 
 	public static final int VERSION = 1;
 }
