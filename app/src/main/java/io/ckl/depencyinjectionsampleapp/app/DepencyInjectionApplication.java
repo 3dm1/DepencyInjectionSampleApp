@@ -2,14 +2,14 @@ package io.ckl.depencyinjectionsampleapp.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import io.ckl.depencyinjectionsampleapp.dagger.components.AppComponent;
 import io.ckl.depencyinjectionsampleapp.dagger.components.DaggerAppComponent;
+import io.ckl.depencyinjectionsampleapp.dagger.components.DaggerNetComponent;
+import io.ckl.depencyinjectionsampleapp.dagger.components.NetComponent;
 import io.ckl.depencyinjectionsampleapp.dagger.modules.AppModule;
-import io.ckl.depencyinjectionsampleapp.dagger.modules.NetworkModule;
 
 /**
  * Created by edsonmenegatti on 2/23/16.
@@ -17,6 +17,7 @@ import io.ckl.depencyinjectionsampleapp.dagger.modules.NetworkModule;
 public class DepencyInjectionApplication extends Application {
 
 	private AppComponent mAppComponent;
+	private NetComponent mNetComponent;
 
 	@Override
 	public void onCreate() {
@@ -27,16 +28,15 @@ public class DepencyInjectionApplication extends Application {
 	}
 
 	private void setupDaggerAppComponent() {
-		mAppComponent = prepareAppComponent().build();
-	}
+		mNetComponent = DaggerNetComponent.builder()
+				.appModule(new AppModule(this))
+				// .networkModule(new NetworkModule()) is free
+				.build();
 
-	@NonNull
-	protected DaggerAppComponent.Builder prepareAppComponent() {
-		return DaggerAppComponent.builder()
-				.appModule(new AppModule(this));
-
-		// Daggers automatically creates this module for you
-//				.networkModule(new NetworkModule());
+		mAppComponent = DaggerAppComponent.builder()
+				// .gitHubModule(new GitHubModule()) is free
+				.netComponent(mNetComponent)
+				.build();
 	}
 
 	public static AppComponent getAppComponent(Context context) {
