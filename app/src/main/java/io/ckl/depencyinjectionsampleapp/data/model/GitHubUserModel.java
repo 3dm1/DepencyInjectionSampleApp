@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.ckl.depencyinjectionsampleapp.data.api.GitHubService;
+import io.ckl.depencyinjectionsampleapp.dagger.modules.GitHubModule;
 import io.ckl.depencyinjectionsampleapp.data.entities.GitHubUser;
 import io.ckl.depencyinjectionsampleapp.helpers.ValidationHelper;
 import retrofit2.Call;
@@ -19,10 +19,10 @@ import retrofit2.Call;
  */
 public class GitHubUserModel {
 
-	private final GitHubService mService;
+	private final GitHubModule.GitHubService mService;
 
 	@Inject
-	public GitHubUserModel(GitHubService service) {
+	public GitHubUserModel(GitHubModule.GitHubService service) {
 		mService = service;
 	}
 

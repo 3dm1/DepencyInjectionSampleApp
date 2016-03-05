@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import io.ckl.depencyinjectionsampleapp.R;
 import io.ckl.depencyinjectionsampleapp.app.DepencyInjectionApplication;
+import io.ckl.depencyinjectionsampleapp.dagger.modules.GitHubModule;
 import io.ckl.depencyinjectionsampleapp.data.entities.GitHubUser;
 import io.ckl.depencyinjectionsampleapp.data.model.GitHubUserModel;
 import io.ckl.depencyinjectionsampleapp.presentation.adapter.GitHubUserAdapter;
@@ -101,7 +102,9 @@ public class UsersListFragment extends BaseFragment
 
 	@Override
 	protected void prepareData() {
-		DepencyInjectionApplication.getAppComponent(getActivity()).inject(this);
+		DepencyInjectionApplication.getAppComponent(getActivity())
+				.plus(new GitHubModule())
+				.inject(this);
 
 		mActionInteractor = new UsersListPresenter(this, mUserModel);
 		mActionInteractor.loadUsersList(false);
