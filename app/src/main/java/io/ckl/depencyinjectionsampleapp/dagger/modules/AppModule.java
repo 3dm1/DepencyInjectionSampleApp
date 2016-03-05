@@ -26,10 +26,4 @@ public class AppModule {
 	public Context provideApplicationContext() {
 		return mApplicationContext;
 	}
-
-	@Provides
-	@PerApp
-	public GitHubUserModel provideGitHubUserModel(GitHubService service) {
-		return new GitHubUserModel(service);
-	}
 }
